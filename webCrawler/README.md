@@ -1,3 +1,3 @@
 # webCrawler
 
-Everything that are related to web crawling aiming at the Amazon customer review.
+We aim at retrieving the Amazon product infos & customer reviews (our target: vacuum cleaners on Amazon).
