@@ -204,7 +204,7 @@ def run(prodType):
 	date=datetime.datetime.now().strftime("%Y-%m-%d")
 	df=pd.DataFrame.from_items([("pindex",item_ids),("type",prodType),("pname",item_names),("brand",item_brands),("price",item_prices),("rurl",item_links),("totalRev",item_num_of_reviews),("avgStars",item_avestars)])
 	df.to_csv("ProdInfo_%s_%s.csv"%(prodType,date), encoding="utf-8")
-	## engine=create_engine("mysql+pymysql://semantic:GbwSq1RzFb@104.199.201.206:13606/Tests?charset=utf8",echo=False, encoding='utf-8')
+	## engine=create_engine("mysql+pymysql://semantic:GbwSq1RzFa@104.199.201.206:13606/Tests?charset=utf8",echo=False, encoding='utf-8')
 	## conn = engine.connect()
 	## df.to_sql(name='amzProd', con=conn, if_exists = 'append', index=False)
 	## conn.close()
