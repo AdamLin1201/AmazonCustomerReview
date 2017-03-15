@@ -1,1 +1,1 @@
-# SementicProj
+# SemanticProj
