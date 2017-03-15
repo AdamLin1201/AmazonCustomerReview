@@ -26,7 +26,7 @@ class ProdInfo:
 		print (url)
 		return url
 
-	def getFinalPageNum(self,url,maxretrytime=20):
+	def getFinalPageNum(self,url,maxretrytime=50):
 		'''
 		This method aims to obtain the total number of pages to be explored (for a specific vacuum type)
 		'''
@@ -86,7 +86,7 @@ class ProdInfo:
 			pageIdx+=1
 		return URLs
 
-	def soupGenerator(self,URLs,maxretrytime=20):    
+	def soupGenerator(self,URLs,maxretrytime=50):    
 		"""
 		Soups of all the URLs of the selected vacuum type will be returned.
 		"""
@@ -101,7 +101,7 @@ class ProdInfo:
 				cnt+=1
 				print("iteration=",cnt)
 				if(cnt>maxretrytime):
-					raise Exception("Error from soupGenerator(url,maxretrytime=20)! Tried too many times but we are still blocked by Amazon.")
+					raise Exception("Error from soupGenerator(url,maxretrytime=%i)! Tried too many times but we are still blocked by Amazon."%maxretrytime)
 				# We have a try-catch block here due to 'Connection time out' will raise an Exception
 				try:
 					with requests.Session() as session:
@@ -121,7 +121,7 @@ class ProdInfo:
 						else:
 							print("Connection failed. Reconnecting...")
 				except:
-					print("Error from soupGenerator(URLs,maxretrytime=20)! Probably due to connection time out")
+					print("Error from soupGenerator(URLs,maxretrytime=%i! Probably due to connection time out"%maxretrytime)
 			
 		return soups
 	
@@ -177,10 +177,14 @@ class ProdInfo:
 					
 						# obtain the averaged number of stars
 						starSelect=item.select_one("span[class='a-declarative']")
-						if((starSelect is None) or (starSelect.span is None)):  # there are no reviews yet (hence, we see no stars at all)
+						#starSelect=item.select_one("div[class='a-column a-span5 a-span-last']")
+
+
+						if(starSelect is None):  # there are no reviews yet (hence, we see no stars at all)
 							item_avestar=0
 						else:
 							item_avestar=starSelect.span.string.split(" ")[0]   # there are some reviews. So, we are able to extract the averaged number of stars
+							#item_avestar=starSelect.div.span.a.i.string.split(" ")[0]   # there are some reviews. So, we are able to extract the averaged number of stars
 					
 						# store the obtained variables into lists
 						item_links.append(link)
@@ -198,7 +202,7 @@ def run(prodType):
 	prodObj=ProdInfo()
 	FinalPageNum=prodObj.InferFinalPageNum(prodType)
 	URLs=prodObj.urlsGenerator(prodType,FinalPageNum)
-	soups=prodObj.soupGenerator(URLs,maxretrytime=20)
+	soups=prodObj.soupGenerator(URLs)
 	item_brands,item_ids,item_names,item_prices,item_num_of_reviews,item_links,item_avestars=prodObj.items_info_extractor(soups)
 	# store the retrieved data
 	date=datetime.datetime.now().strftime("%Y-%m-%d")
