@@ -4,4 +4,4 @@ We extract customer reviews and their corresponding product infos from Amazon.co
 
 ![Oops Figure missing](https://i.imgur.com/1oxIkkT.png)
 
-(icon green/gray: positive/negative emotion)
+(icon light blue/gray: positive/negative emotion)
